@@ -7,8 +7,11 @@
 # Requirements: ffmpeg, mplayer in your $PATH
 #
 # Usage:
+# require 'encode_nonsquare_videos'
 # Ffmpeg.encode(source_filename, destination_filename)
-
+#
+# At the moment, you must set your encode options directly in Ffmpeg#encode
+# TODO: Perhaps use StreamIO's ffmpeg wrapper.
 
 class Mplayer
 
@@ -57,12 +60,24 @@ end
 
 class Ffmpeg
   # How many threads to use -- speeds things up on multi-core/multi-CPU machines
-  @@threads = 8
+  @@threads = 4
 
   def self.encode(filename, destination)
     aspect_ratio = Mplayer.new(filename).info[:video_aspect]
     deinterlace = '-vf "yadif=3"'
-    command = "ffmpeg -i #{filename} -threads #{@@threads} -crf 17.0 -qcomp 0.6 -b 5000KB #{deinterlace} -aspect #{aspect_ratio} -deinterlace -vc h264 -acodec libfaac -ab 160k #{destination}"
+    #quality = "-qscale 18" # You could also put things like bitrate here instead if you want control over that
+    #quality = "-crf 20" # You could also put things like bitrate here instead if you want control over that
+    quality = "-qmin 20 -qmax 20"
+    
+    command = "ffmpeg -i #{filename} -threads #{@@threads} #{quality} #{deinterlace} -aspect #{aspect_ratio} -vc h264 -acodec libfaac -ab 160k #{destination}"
+    puts "Running #{command}"
     result = `#{command}`
+    if $? == 0
+      return true
+    else
+      puts result
+      return false
+    end
   end
+  
 end
