@@ -10,8 +10,7 @@
 # require 'encode_nonsquare_videos'
 # Ffmpeg.encode(source_filename, destination_filename)
 #
-# At the moment, you must set your encode options directly in Ffmpeg#encode
-# TODO: Perhaps use StreamIO's ffmpeg wrapper.
+# At the moment, you must set your encode options directly in Ffmpeg#build_command
 
 class Mplayer
 
@@ -60,16 +59,10 @@ end
 
 class Ffmpeg
   # How many threads to use -- speeds things up on multi-core/multi-CPU machines
-  @@threads = 4
+  @@threads = 0
 
   def self.encode(filename, destination)
-    aspect_ratio = Mplayer.new(filename).info[:video_aspect]
-    deinterlace = '-vf "yadif=3"'
-    #quality = "-qscale 18" # You could also put things like bitrate here instead if you want control over that
-    #quality = "-crf 20" # You could also put things like bitrate here instead if you want control over that
-    quality = "-qmin 20 -qmax 20"
-    
-    command = "ffmpeg -i #{filename} -threads #{@@threads} #{quality} #{deinterlace} -aspect #{aspect_ratio} -vc h264 -acodec libfaac -ab 160k #{destination}"
+    command = self.build_command(filename, destination)
     puts "Running #{command}"
     result = `#{command}`
     if $? == 0
@@ -78,6 +71,17 @@ class Ffmpeg
       puts result
       return false
     end
+  end
+
+  def self.build_command(filename, destination)
+    aspect_ratio = Mplayer.new(filename).info[:video_aspect]
+    deinterlace = '-vf "yadif=3"'
+    video_codec = "-vcodec libx264"
+    audio_codec = "-acodec libfaac -ab 160k"
+    #quality = "-qscale 18" # You could also put things like bitrate here instead if you want control over that
+    quality = "-crf 17 -preset veryslow"
+
+    return "/usr/local/bin/ffmpeg -i #{filename} -threads #{@@threads} #{video_codec} #{audio_codec} #{quality} #{deinterlace} -aspect #{aspect_ratio} #{destination}"
   end
   
 end
