@@ -79,9 +79,9 @@ class Ffmpeg
     video_codec = "-vcodec libx264"
     audio_codec = "-acodec libfaac -ab 160k"
     #quality = "-qscale 18" # You could also put things like bitrate here instead if you want control over that
-    quality = "-crf 17 -preset veryslow"
+    quality = "-crf 17 -preset slow"
 
-    return "/usr/local/bin/ffmpeg -i #{filename} -threads #{@@threads} #{video_codec} #{audio_codec} #{quality} #{deinterlace} -aspect #{aspect_ratio} #{destination}"
+    return "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} #{video_codec} -threads #{@@threads} #{audio_codec} #{quality} -aspect #{aspect_ratio} #{destination}"
   end
   
 end
