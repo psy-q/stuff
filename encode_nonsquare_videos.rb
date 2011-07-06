@@ -61,27 +61,32 @@ class Ffmpeg
   # How many threads to use -- speeds things up on multi-core/multi-CPU machines
   @@threads = 0
 
-  def self.encode(filename, destination)
-    command = self.build_command(filename, destination)
-    puts "Running #{command}"
-    result = `#{command}`
-    if $? == 0
-      return true
-    else
-      puts result
-      return false
+  def self.encode(filename, destdir = "./")
+    commands = self.build_commands(filename, destdir)
+    commands.each do |command|
+      puts "Running #{command}"
+      result = `#{command}`
     end
   end
 
-  def self.build_command(filename, destination)
+  def self.build_commands(filename, destdir)
+    commands = []
+    output_basename = File.basename(filename, File.extname(filename))
     aspect_ratio = Mplayer.new(filename).info[:video_aspect]
     deinterlace = '-vf "yadif=3"'
     video_codec = "-vcodec libx264"
     audio_codec = "-acodec libfaac -ab 160k"
     #quality = "-qscale 18" # You could also put things like bitrate here instead if you want control over that
-    quality = "-crf 17 -preset slow"
+    quality = "-crf 20 -preset slow"
 
-    return "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} #{video_codec} -threads #{@@threads} #{audio_codec} #{quality} -aspect #{aspect_ratio} #{destination}"
+    # This command encodes without audio to an MP4 container
+    commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} #{video_codec} -an -threads #{@@threads} #{quality} #{destdir}/#{output_basename}.mp4"
+
+    # This encodes just the audio to an AAC file
+    commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} -threads #{@@threads} #{audio_codec} #{destdir}/#{output_basename}.aac"
+
+    return commands
+    
   end
   
 end
