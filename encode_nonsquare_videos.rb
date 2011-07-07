@@ -80,11 +80,14 @@ class Ffmpeg
     quality = "-crf 20 -preset slow"
 
     # This command encodes without audio to an MP4 container
-    commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} #{video_codec} -an -threads #{@@threads} #{quality} #{destdir}/#{output_basename}.mp4"
+    #commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} #{video_codec} -an -threads #{@@threads} #{quality} #{destdir}/#{output_basename}.mp4"
 
     # This encodes just the audio to an AAC file
-    commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} -threads #{@@threads} #{audio_codec} #{destdir}/#{output_basename}.aac"
+    #commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} -threads #{@@threads} #{audio_codec} #{destdir}/#{output_basename}.aac"
 
+    # This command encodes without audio to an MP4 container
+    commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} #{video_codec} #{audio_codec} -threads #{@@threads} #{quality} #{destdir}/#{output_basename}.m4v"
+    
     return commands
     
   end
