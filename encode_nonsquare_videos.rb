@@ -4,57 +4,13 @@
 # This is done by extracting a few frames from the middle of the video to find the correct aspect ratio,
 # then setting this aspect ratio explicitly when encoding with ffmpeg.
 #
-# Requirements: ffmpeg, mplayer in your $PATH
-#
+# Requirements: ffmpeg in /usr/local/bin 
+#               Needs to be compiled with faad, x264
 # Usage:
 # require 'encode_nonsquare_videos'
 # Ffmpeg.encode(source_filename, destination_filename)
 #
 # At the moment, you must set your encode options directly in Ffmpeg#build_command
-
-class Mplayer
-
-  attr_accessor :filename
-  attr_reader :info
-
-  def initialize(filename = nil)
-    @filename = filename
-    @info = {}
-
-    self.extract_information unless @filename.empty?
-  end
-
-  def extract_information
-    if @filename
-      initial_info = `mplayer -vo null -ao null -frames 0 -identify #{@filename} 2>/dev/null | grep ID_`
-      initial_info.each do |info|
-        key, value = info.split("=")
-        value = value.gsub("\n","")
-        key = key.gsub("ID_", "")
-        @info.merge!(:"#{key.downcase}" => value)
-      end
-      # We play a few frames from the middle of the clip because only that gives us the correct aspect ratio.
-      # These crazy MPEG-2 PS files can switch aspect ratio at any time!
-      aspect_ratio = `mplayer -vo null -ao null -ss #{@info[:length].to_i / 2} -frames 4 -identify #{@filename} 2>/dev/null | grep ID_VIDEO_ASPECT`
-      ratios = []
-      aspect_ratio.each do |ar|
-        key, value = ar.split("=")
-        value = value.gsub("\n","")
-        ratios << value.to_f
-      end
-      @info[:video_aspect] = ratios.last
-      return true
-    elsif !File.exists?(@filename)
-      puts "Sorry, the file '#{@filename}' does not exist."
-      return false
-    else
-      puts "Sorry, can't extract information if I don't have a filename."
-      return false
-    end
-    
-  end
-
-end
 
 
 class Ffmpeg
@@ -64,7 +20,9 @@ class Ffmpeg
   def self.extract_sar(filename)
     # DANGER: Assumes that the video is at least 60 seconds long, and tries to grab some frame from the middle to reliably
     # determine aspect ratio
-    sample_aspect_ratio = `ffmpeg -vf showinfo -ss 60 -t 1 -i #{filename} -y /tmp/temp.m4v 2>&1 | grep "sar:" | grep -v sws_param | cut -d " " -f 9 | uniq`
+    sample_aspect_ratio = `/usr/local/bin/ffmpeg -vf showinfo -ss 60 -t 1 -i #{filename} -y /tmp/temp.m4v 2>&1 | grep "sar:" | grep -v sws_param | cut -d " " -f 9 | uniq`.split("\n").last.gsub("sar:","")
+    sample_aspect_ratio.gsub!("64/45","16:9")
+    sample_aspect_ratio.gsub!("16/15","4:3")
   end
 
   def self.encode(filename, destdir = "./")
@@ -78,7 +36,6 @@ class Ffmpeg
   def self.build_commands(filename, destdir)
     commands = []
     output_basename = File.basename(filename, File.extname(filename))
-    #aspect_ratio = Mplayer.new(filename).info[:video_aspect]
     aspect_ratio = Ffmpeg.extract_sar(filename).gsub("/",":")
     deinterlace = '-vf "yadif=3"'
     video_codec = "-vcodec libx264"
@@ -92,7 +49,7 @@ class Ffmpeg
     # This encodes just the audio to an AAC file
     #commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} -threads #{@@threads} #{audio_codec} #{destdir}/#{output_basename}.aac"
 
-    # This command encodes without audio to an MP4 container
+    # This command encodes with audio to an MP4 container
     commands << "/usr/local/bin/ffmpeg -i #{filename} #{deinterlace} #{video_codec} #{audio_codec} -threads #{@@threads} #{quality} -aspect #{aspect_ratio} #{destdir}/#{output_basename}.m4v"
     
     return commands
