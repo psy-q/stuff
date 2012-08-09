@@ -1,0 +1,41 @@
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+
+		<title>Ramón Cahenzli's own personal web thing</title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="js/tweet/jquery.tweet.js"></script>
+
+		<script type="text/javascript">
+			$(function() {
+				$('#tweets').append("foop");
+
+
+				$("#tweets").tweet({
+					username: "psyq123",
+					join_text: "auto",
+					count: 5,
+					auto_join_text_default: "we said,", 
+					auto_join_text_ed: "we",
+					auto_join_text_ing: "we were",
+					auto_join_text_reply: "we replied to",
+					auto_join_text_url: "we were checking out",
+					loading_text: "loading tweets..."
+				});
+			});
+		</script>
+
+	</head>
+
+
+	<body>
+		<div id="tweets">
+			<div class="tweet">poop</div>
+		</div>
+
+	</body>
+
+
+
+</html>
