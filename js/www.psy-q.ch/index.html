@@ -6,23 +6,29 @@
 		<title>Ramón Cahenzli's own personal web thing</title>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="js/tweet/jquery.tweet.js"></script>
-
+		<script type="text/javascript" src="js/zrssfeed/jquery.zrssfeed.min.js"></script>
 		<script type="text/javascript">
 			$(function() {
-				$('#tweets').append("foop");
-
-
 				$("#tweets").tweet({
 					username: "psyq123",
 					join_text: "auto",
 					count: 5,
-					auto_join_text_default: "we said,", 
-					auto_join_text_ed: "we",
-					auto_join_text_ing: "we were",
-					auto_join_text_reply: "we replied to",
-					auto_join_text_url: "we were checking out",
-					loading_text: "loading tweets..."
+					template: "{text}",
+					auto_join_text_default: "", 
+					auto_join_text_ed: "",
+					auto_join_text_ing: "",
+					auto_join_text_reply: "",
+					auto_join_text_url: "",
+					loading_text: "Loading tweets..."
 				});
+
+				$("#posts").rssfeed("http://blog.psy-q.ch/feed", {
+					header: false,
+					snippet: true,
+					content: true,
+					limit: 5
+				});
+
 			});
 		</script>
 
@@ -33,6 +39,10 @@
 		<div id="tweets">
 			<div class="tweet">poop</div>
 		</div>
+
+		<div id="posts">
+		</div>
+
 
 	</body>
 
