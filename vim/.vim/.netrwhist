@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/rca/work/code/ror/madek/spec/factories'
+let g:netrw_dirhist_2='/home/rca/.themes/Xfce-rca'
+let g:netrw_dirhist_3='/home/rca/work/code/ror/leihs/other'
+let g:netrw_dirhist_4='/home/rca/work/code/ror/madek'
+let g:netrw_dirhist_5='/home/rca'
+let g:netrw_dirhist_6='/home/rca/work/code/ror/madek'
+let g:netrw_dirhist_7='/home/rca/work/code/ror/stizun/app/models'
+let g:netrw_dirhist_8='/etc/X11'
