@@ -13,10 +13,12 @@ nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
-:set guifont=Monospace\ 12
+set guifont=Monospace\ 12
 
 set nobackup
 
+set incsearch
+set hlsearch
 
 " Markdown extension
 au BufNewFile,BufRead *.md set ft=md
