@@ -1,4 +1,6 @@
 call pathogen#infect()
+call pathogen#helptags()
+
 syntax on
 filetype plugin indent on
 
@@ -16,9 +18,11 @@ nmap <silent> <A-Right> :wincmd l<CR>
 set guifont=Monospace\ 12
 
 set nobackup
-
+set nocompatible
 set incsearch
 set hlsearch
+set encoding=utf-8
+let g:Powerline_symbols = 'unicode'
 
 " Markdown extension
 au BufNewFile,BufRead *.md set ft=md
