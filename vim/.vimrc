@@ -1,3 +1,5 @@
+set nocompatible
+
 call pathogen#infect()
 call pathogen#helptags()
 
@@ -18,7 +20,6 @@ nmap <silent> <A-Right> :wincmd l<CR>
 set guifont=Monospace\ 12
 
 set nobackup
-set nocompatible
 set incsearch
 set hlsearch
 set encoding=utf-8
