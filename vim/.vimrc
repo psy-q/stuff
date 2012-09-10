@@ -1,31 +1,69 @@
+" Parts stolen from: https://github.com/skwp/dotfiles
+
 set nocompatible
 
 call pathogen#infect()
 call pathogen#helptags()
 
 syntax on
+set hidden
 filetype plugin indent on
 
-":set number
-"autocmd vimenter * NERDTree
-"colorscheme lucius
-"LuciusDark
+" == Indentation ==
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+
+" Display tabs and trailing spaces visually
+set list listchars=tab:\ \ ,trail:·
+
+" == Folds ==
+
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "dont fold by default
+
+" == Scrolling
+
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+
+
+" == Backup files
+set nobackup
+set nowb
+
+" == Search settings ==
+set incsearch
+set hlsearch
+
+
+" == Line numbering ==
+set number
+
+" == Colors ==
 colorscheme xoria256
 
+" == Open NERDTree on entering? ==
+"autocmd vimenter * NERDTree
+
+
+" == Easily navigate split windows ==
 nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
-set guifont=Monospace\ 12
 
-set nobackup
-set incsearch
-set hlsearch
+" == Fonts, encoding, Powerline ==
+
+set guifont=Monospace\ 12
 set encoding=utf-8
 let g:Powerline_symbols = 'unicode'
 
 " Markdown extension
 au BufNewFile,BufRead *.md set ft=md
 
-"autocmd FileType ruby setlocal expandtab shiftwidth=2 softtabstop=2
