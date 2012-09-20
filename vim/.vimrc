@@ -13,9 +13,9 @@ filetype plugin indent on
 set autoindent
 set smartindent
 set smarttab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+"set shiftwidth=2
+"set softtabstop=2
+"set tabstop=2
 set expandtab
 
 " Display tabs and trailing spaces visually
@@ -29,7 +29,7 @@ set nofoldenable        "dont fold by default
 
 " == Scrolling
 
-set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set scrolloff=4         "Start scrolling when we're 4 lines away from margins
 
 
 " == Backup files
