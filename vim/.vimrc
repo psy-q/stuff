@@ -57,6 +57,11 @@ nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
+" == Easily jump between buffers
+nmap <silent> <C-J> :bprevious<CR>
+nmap <silent> <C-K> :bnext<CR>
+
+
 
 " == Fonts, encoding, Powerline ==
 
