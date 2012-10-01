@@ -47,6 +47,10 @@ set number
 " == Colors ==
 colorscheme xoria256
 
+" == Mousymouse
+set mouse=a
+
+
 " == Open NERDTree on entering? ==
 "autocmd vimenter * NERDTree
 
