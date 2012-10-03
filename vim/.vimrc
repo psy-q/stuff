@@ -49,7 +49,7 @@ colorscheme xoria256
 
 " == Mousymouse
 set mouse=a
-
+set ttymouse=xterm2
 
 " == Open NERDTree on entering? ==
 "autocmd vimenter * NERDTree
