@@ -21,6 +21,9 @@ set expandtab
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \ ,trail:·
 
+" == Extra matchers for % ==
+runtime macros/matchit.vim
+
 " == Folds ==
 
 set foldmethod=indent   "fold based on indent
