@@ -68,6 +68,9 @@ nmap <silent> <A-Right> :wincmd l<CR>
 nmap <silent> <C-J> :bprevious<CR>
 nmap <silent> <C-K> :bnext<CR>
 
+" == Easily jump between tabs
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
 
 
 " == Fonts, encoding, Powerline ==
