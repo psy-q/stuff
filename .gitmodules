@@ -34,3 +34,9 @@
 [submodule "vim/.vim/bundle/vim-easymotion"]
 	path = vim/.vim/bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
+[submodule "bundle/vim-neatstatus"]
+	path = bundle/vim-neatstatus
+	url = git://github.com/maciakl/vim-neatstatus.git
+[submodule "vim/.vim/bundle/vim-neatstatus"]
+	path = vim/.vim/bundle/vim-neatstatus
+	url = git://github.com/maciakl/vim-neatstatus.git
