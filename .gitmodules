@@ -10,9 +10,6 @@
 [submodule "vim/.vim/bundle/vim-cucumber"]
 	path = vim/.vim/bundle/vim-cucumber
 	url = git://github.com/tpope/vim-cucumber.git
-[submodule "vim/.vim/bundle/vim-powerline"]
-	path = vim/.vim/bundle/vim-powerline
-	url = git://github.com/Lokaltog/vim-powerline.git
 [submodule "vim/.vim/bundle/vim-ruby"]
 	path = vim/.vim/bundle/vim-ruby
 	url = git://github.com/vim-ruby/vim-ruby.git
